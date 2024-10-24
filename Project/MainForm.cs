@@ -32,7 +32,7 @@ namespace Project
 		
 		void BtnCalcularRFCClick(object sender, EventArgs e)
 		{
-			
+			// Recojemos los datos ingresados por el usuario
             string nombre = txtNombre.Text;
             string apellido1 = txtApellido1.Text;
             string apellido2 = txtApellido2.Text;
@@ -41,17 +41,19 @@ namespace Project
             string semestre = comboBoxSemestre.SelectedItem.ToString();
             DateTime fechaNacimiento = dateTimePickerSI.Value;
 			
-            
+            // Calculamos el RFC mediante un metodo y lo mostramos al usuario
             string rfc = CalcularRFC(nombre, apellido1, apellido2, fechaNacimiento);
             lblResultado.Text = "Resultado: " + rfc;
         }
 
         private string CalcularRFC(string nombre, string apellido1, string apellido2, DateTime fechaNacimiento)
         {
+        	// Recojemos las iniciales de los apellidos
             string inicialApellido1 = apellido1.Substring(0, 1).ToUpper();
             string inicialNombre = nombre.Substring(0, 1).ToUpper();
             string inicialApellido2;
             char vocal = 'x';
+            // Recojemos la primera vocal del primer apellido
             for(int i=0;i<apellido1.Length;++i)
             {
             	if(apellido1[i]=='a')
@@ -81,6 +83,7 @@ namespace Project
             	}
             }
             
+            // Usamos la inicial del primer apellido si no hay segundo
             if (!string.IsNullOrEmpty(apellido2))
             {
                 inicialApellido2 = apellido2.Substring(0, 1).ToUpper();
@@ -90,6 +93,7 @@ namespace Project
                 inicialApellido2 = inicialApellido1;
             }
             
+            // Creamos aleatoriamente 3 caracteres para usar al final del RFC
             string fechaRFC = fechaNacimiento.ToString("yyMMdd");
             string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         	Random random = new Random();
@@ -103,7 +107,8 @@ namespace Project
 
         	string resultado = new string(cadenaAleatoria);
         	
-            return inicialApellido1 + char.ToUpper(vocaAl) + inicialApellido2 + inicialNombre + fechaRFC + resultado;
+        	// Retornamos la cadena que sera usada en main
+            return inicialApellido1 + char.ToUpper(vocal) + inicialApellido2 + inicialNombre + fechaRFC + resultado;
         }
 	}
 }
